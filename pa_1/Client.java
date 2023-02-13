@@ -214,5 +214,30 @@ public class Client extends Thread {
     	long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
     
     	/* Implement here the code for the run method ... */
+	sendClientStartTime = System.currentTimeMillis(); //starts timer for sendClient
+        while(true){
+            if(objNetwork.getInBufferStatus().equals("full")){
+                sendTransactions(transact);
+            }else{
+                System.out.println("The buffer is full");
+                Thread.yield();
+            }
+        }
+        sendClientEndTime = System.currentTimeMillis(); //stops timer for sendClient 
+        
+        receiveClientStartTime = System.currentTimeMillis(); //starts timer for receiveClient
+        while(true){
+            if(objNetwork.getInBufferStatus().equals("empty")){
+                receiveTransactions();
+                setNumberOfTransactions(getNumberOfTransactions() + 1);
+            } else{
+                System.out.println("the butter is empty");
+                Thread.yield();
+            }
+        }
+        receiveClientEndTime = System.currentTimeMillis(); //ends timer for recieveClient
+
+        System.out.println("\n Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime) + " milliseconds");
+        objNetwork.disconnect(objNetwork.getServerIP());
     }
 }
