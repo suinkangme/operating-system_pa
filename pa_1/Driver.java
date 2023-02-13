@@ -10,7 +10,7 @@
  * @author Kerly Titus
  */
 
-public class Driver {
+public class Driver extends Thread{
 
     /** 
      * main class
@@ -19,15 +19,23 @@ public class Driver {
     public static void main(String[] args) {
 
     	Network objNetwork = new Network("network");
-
-        objNetwork.start();
-
+        
+         /* Complete here the code for the main method ...*/
+        
+        Thread network_thread = new Thread(objNetwork);
+        network_thread.start();
+        
         Server objServer = new Server();
-
-        /* Complete here the code for the main method ...*/
-
-
-
+        Thread server_thread = new Thread(objServer);
+        server_thread.start();
+        
+        Client sender_thread = new Client("sending");
+        Thread send_thread = new Thread(sender_thread);
+        send_thread.start();
+        
+        Client receiver_thread = new Client("receiving");
+        Thread receive_thread = new Thread(receiver_thread);
+        receive_thread.start();
 
 
     }
