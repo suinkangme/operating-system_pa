@@ -309,23 +309,30 @@ public class Server extends Thread{
      * @param
      */
     public void run()
-    {   Transactions trans = new Transactions();
-    	long serverStartTime = System.currentTimeMillis();
-        long serverEndTime;
+    {  
+	Transactions trans = new Transactions();
+	    
+    	long serverStartTime,serverEndTime;
+
+        serverStartTime = System.currentTimeMillis();
 
     	System.out.println("\n DEBUG : Server.run() - starting server thread " + objNetwork.getServerConnectionStatus());
     	
     	/* Implement the code for the run method */
-        try(ServerSocket serverSocket = new Server(Port)){
 
+        while(true){
+            if(!objNetwork.getInBufferStatus().equals("empty")){
+                processTransactions(trans);
+            } else{
+                System.out.println("the butter is full");
+                Thread.yield();
+            }
         }
 
+        serverEndTime = System.currentTimeMillis();
 
-
-
-        serverEndTime = System.currentTimeMillis()
         System.out.println("\n Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime) + " milliseconds");
-           
+        objNetwork.disconnect(objNetwork.getServerIP());
     }
 }
 
