@@ -194,6 +194,8 @@ public class Server extends Thread{
          {
 
         	 while( (objNetwork.getInBufferStatus().equals("empty"))){
+		 // We have to check if the clientconnection is disconnected otherwise the run() method in server & network forever. 
+		 // When the program finishes, the buffere is always empty, so the while() will run infinite loop. 
                  if(objNetwork.getClientConnectionStatus().equals("disconnected")){
                      break;
                  }
