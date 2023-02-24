@@ -17,10 +17,13 @@ public class Driver extends Thread{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        
 
     	Network objNetwork = new Network("network");
         
-         /* Complete here the code for the main method ...*/
+        /* Complete here the code for the main method ...*/
+        // we don't have to create each thread!  
         
         Thread network_thread = new Thread(objNetwork);
         network_thread.start();
