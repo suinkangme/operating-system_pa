@@ -9,6 +9,7 @@
  *
  * @author Kerly Titus
  */
+
 public class Network extends Thread{
     
     private static int maxNbPackets;                           /* Maximum number of simultaneous transactions handled by the network buffer */
