@@ -32,7 +32,7 @@ public class Server extends Thread {
     private static String serverThreadRunningStatus1; /* Running status of thread 1 - idle, running, terminated */
     private static String serverThreadRunningStatus2; /* Running status of thread 2 - idle, running, terminated */
 
-    private static String serverThreadRunningStatus3; /* Running status of thread 3 - idle, running, terminated */
+    //private static String serverThreadRunningStatus3; /* Running status of thread 3 - idle, running, terminated */
 
     /**
      * Constructor method of Client class
@@ -63,7 +63,7 @@ public class Server extends Thread {
                 serverThreadRunningStatus2 = "idle";
             }
             else if(stid.equals("3")){
-                serverThreadRunningStatus3 = "idle";
+                //serverThreadRunningStatus3 = "idle";
             }
         }
 
@@ -196,26 +196,6 @@ public class Server extends Thread {
      * @param
      */
 
-    public String getServerThreadRunningStatus3() {
-        return serverThreadRunningStatus3;
-    }
-
-    /**
-     * Mutator method of Server class
-     *
-     * @return
-     * @param runningStatus
-     */
-    public void setServerThreadRunningStatus3(String runningStatus) {
-        serverThreadRunningStatus3 = runningStatus;
-    }
-
-    /**
-     * Accessor method of Server class
-     *
-     * @return serverThreadRunningStatus3
-     * @param
-     */
 
     public void initializeAccounts() {
         Scanner inputStream = null; /* accounts input file stream */
@@ -287,15 +267,15 @@ public class Server extends Thread {
 
         /* Process the accounts until the client disconnects */
         while ((!Network.getClientConnectionStatus().equals("disconnected"))) {
+            /*
             while ((Network.getInBufferStatus().equals("empty") &&
                     !Network.getClientConnectionStatus().equals("disconnected"))) {
-
                 /*
-                Thread.yield(); /* Yield the cpu if the network input buffer is empty */
-                //Thread.yield();
-            }
+                Thread.yield(); /* Yield the cpu if the network input buffer is empty
+                } */
 
             Thread.sleep(20);
+
             if (!Network.getInBufferStatus().equals("empty")) {
 
                 Network.transferIn(trans); /* Transfer a transaction from the network input buffer */
@@ -453,7 +433,7 @@ public class Server extends Thread {
             System.out
                     .println("\n Terminating server thread 1 - " + " Running time " + (serverEndTime - serverStartTime)
                             + " milliseconds");
-            Server.serverThreadRunningStatus1 = "terminated";
+            setServerThreadRunningStatus1("terminated");
 
         } else if (getServerThreadId().equals("2")) {
             try {
@@ -465,9 +445,10 @@ public class Server extends Thread {
             System.out
                     .println("\n Terminating server thread 2 - " + " Running time " + (serverEndTime - serverStartTime)
                             + " milliseconds");
-            Server.serverThreadRunningStatus2 = "terminated";
+            setServerThreadRunningStatus2("terminated");
 
-        } else if (getServerThreadId().equals("3")) {
+        }
+        /* else if (getServerThreadId().equals("3")) {
             try {
                 processTransactions(trans);
             } catch (InterruptedException e) {
@@ -480,11 +461,10 @@ public class Server extends Thread {
             Server.serverThreadRunningStatus3 = "terminated";
 
         }
+         */
 
-
-
-        if(getServerThreadRunningStatus1().equals("terminated") && getServerThreadRunningStatus2().equals("terminated") && getServerThreadRunningStatus3().equals("terminated")){
-            Network.setServerConnectionStatus("disconnected");
+        if(getServerThreadRunningStatus1().equals("terminated") && getServerThreadRunningStatus2().equals("terminated")){
+            Network.disconnect(Network.getServerIP());
         }
 
 
