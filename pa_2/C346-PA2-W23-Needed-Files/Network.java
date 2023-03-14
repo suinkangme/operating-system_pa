@@ -640,7 +640,7 @@ public class Network extends Thread {
                 System.out.println("\n Terminating network thread - Client disconnected Server disconnected");
                 break;
             }else{
-                Thread.yield();
+                //Thread.yield();
             }
 
 
