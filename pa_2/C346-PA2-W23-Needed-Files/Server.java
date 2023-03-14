@@ -415,9 +415,7 @@ public class Server extends Thread {
                     .println("\n Terminating server thread 1 - " + " Running time " + (serverEndTime - serverStartTime)
                             + " milliseconds");
             Server.serverThreadRunningStatus1 = "terminated";
-            while (!getServerThreadRunningStatus2().equals("terminated")) {
-                Thread.yield();
-            }
+         
         } else if (getServerThreadId().equals("2")) {
             processTransactions(trans);
             serverEndTime = System.currentTimeMillis();
@@ -425,12 +423,11 @@ public class Server extends Thread {
                     .println("\n Terminating server thread 2 - " + " Running time " + (serverEndTime - serverStartTime)
                             + " milliseconds");
             Server.serverThreadRunningStatus2 = "terminated";
-            while (!getServerThreadRunningStatus1().equals("terminated")) {
-                Thread.yield();
-            }
+        
         }
 
-        Network.setServerConnectionStatus("disconnected");
-
+         if(getServerThreadRunningStatus1().equals("terminated") && getServerThreadRunningStatus2().equals("terminated")){
+            Network.setServerConnectionStatus("disconnected");
+        }
     }
 }
