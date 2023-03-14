@@ -27,6 +27,9 @@ public class Driver {
     Thread server2 = new Thread(new Server("2"));
     server2.start();
 
+    Thread server3 = new Thread(new Server("3"));
+    server3.start();
+
     Thread sendingClient = new Thread(new Client("sending")); /* Start the sending client thread */
     sendingClient.start();
 
