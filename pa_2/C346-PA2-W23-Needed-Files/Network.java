@@ -341,7 +341,7 @@ public class Network extends Thread {
      */
     public static boolean send(Transactions inPacket)
     {
-        System.out.println("sending");
+       
         try{
             semaFullIn.acquire();
 
@@ -403,7 +403,6 @@ public class Network extends Thread {
      */
     public static boolean receive(Transactions outPacket) {
 
-        System.out.println("Receiving");
 
         try{
             semaEmptyOut.acquire();
@@ -463,8 +462,6 @@ public class Network extends Thread {
      *
      */
     public static boolean transferOut(Transactions outPacket) {
-
-        System.out.println("TransferOut");
 
         try{
             semaFullOut.acquire();
@@ -527,7 +524,6 @@ public class Network extends Thread {
      */
     public static boolean transferIn(Transactions inPacket) {
 
-        System.out.println("TransferIn");
         try{
             semaEmptyIn.acquire();
         }catch (InterruptedException e){
