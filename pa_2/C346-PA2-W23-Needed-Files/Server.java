@@ -32,8 +32,6 @@ public class Server extends Thread {
     private static String serverThreadRunningStatus1; /* Running status of thread 1 - idle, running, terminated */
     private static String serverThreadRunningStatus2; /* Running status of thread 2 - idle, running, terminated */
 
-    //private static String serverThreadRunningStatus3; /* Running status of thread 3 - idle, running, terminated */
-
     /**
      * Constructor method of Client class
      * 
@@ -62,9 +60,7 @@ public class Server extends Thread {
             if(stid.equals("2")){
                 serverThreadRunningStatus2 = "idle";
             }
-            else if(stid.equals("3")){
-                //serverThreadRunningStatus3 = "idle";
-            }
+          
         }
 
     }
@@ -448,20 +444,7 @@ public class Server extends Thread {
             setServerThreadRunningStatus2("terminated");
 
         }
-        /* else if (getServerThreadId().equals("3")) {
-            try {
-                processTransactions(trans);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            serverEndTime = System.currentTimeMillis();
-            System.out
-                    .println("\n Terminating server thread 3 - " + " Running time " + (serverEndTime - serverStartTime)
-                            + " milliseconds");
-            Server.serverThreadRunningStatus3 = "terminated";
-
-        }
-         */
+   
 
         if(getServerThreadRunningStatus1().equals("terminated") && getServerThreadRunningStatus2().equals("terminated")){
             Network.disconnect(Network.getServerIP());
