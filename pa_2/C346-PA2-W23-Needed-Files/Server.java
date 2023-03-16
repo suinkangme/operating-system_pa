@@ -415,6 +415,7 @@ public class Server extends Thread {
      */
 
     public void run() {
+        
         Transactions trans = new Transactions();
         long serverStartTime, serverEndTime;
         serverStartTime = System.currentTimeMillis();
@@ -423,7 +424,7 @@ public class Server extends Thread {
             try {
                 processTransactions(trans);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+               
             }
             serverEndTime = System.currentTimeMillis();
             System.out
@@ -435,7 +436,7 @@ public class Server extends Thread {
             try {
                 processTransactions(trans);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                
             }
             serverEndTime = System.currentTimeMillis();
             System.out
@@ -445,7 +446,6 @@ public class Server extends Thread {
 
         }
    
-
         if(getServerThreadRunningStatus1().equals("terminated") && getServerThreadRunningStatus2().equals("terminated")){
             Network.disconnect(Network.getServerIP());
         }
