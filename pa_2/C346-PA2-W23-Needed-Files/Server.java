@@ -447,7 +447,7 @@ public class Server extends Thread {
         }
    
         if(getServerThreadRunningStatus1().equals("terminated") && getServerThreadRunningStatus2().equals("terminated")){
-            Network.disconnect(Network.getServerIP());
+            
         }
 
 
