@@ -118,7 +118,7 @@ public class Philosopher extends BaseThread
 
 			double random_value = Math.random();
 
-			if(random > )
+			if(random_value < 0.5)
 			{
 				DiningPhilosophers.soMonitor.requestTalk();
 				talk();
