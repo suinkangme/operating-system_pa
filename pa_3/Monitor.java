@@ -62,7 +62,7 @@ public class Monitor
 	 */
 	public synchronized void endTalk()
 	{
-		// ...
+		notifyAll();
 	}
 }
 
