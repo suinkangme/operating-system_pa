@@ -1,17 +1,19 @@
-
 /**
  * Class Monitor
  * To synchronize dining philosophers.
  *
  * @author Serguei A. Mokhov, mokhov@cs.concordia.ca
  */
+
+import java.util.concurrent.locks.*;
+
 public class Monitor
 {
-	/*
-	 * ------------
-	 * Data members
-	 * ------------
-	 */
+
+	private enum State{THINKING, HUNGRY, EATING};
+	private State[] state;
+	private Lock lock = new ReentrantLock();
+	private Condition[] self;
 
 
 	/**
@@ -20,7 +22,15 @@ public class Monitor
 	public Monitor(int piNumberOfPhilosophers)
 	{
 		// TODO: set appropriate number of chopsticks based on the # of philosophers
-	}
+		
+		this.state = new State[piNumberOfPhilosophers];
+		this.self = new Condition[piNumberOfPhilosophers];
+
+		for(int i = 0; i < piNumberOfPhilosophers; i++){
+			state[i] = State.THINKING;
+			self[i] = lock.newCondition();
+		}
+	}	
 
 	/*
 	 * -------------------------------
@@ -28,14 +38,38 @@ public class Monitor
 	 * -------------------------------
 	 */
 
+	 private void test(int piTID) {
+        if (state[(piTID + state.length - 1) % state.length] != State.EATING &&
+            state[piTID] == State.HUNGRY &&
+            state[(piTID + 1) % state.length] != State.EATING) {
+
+            state[piTID] = State.EATING;
+            self[piTID].signal();
+        }
+    }
+ 
+
 	/**
 	 * Grants request (returns) to eat when both chopsticks/forks are available.
 	 * Else forces the philosopher to wait()
 	 */
 	public synchronized void pickUp(final int piTID)
-	{
-		state[piTID] = "HUNGRY";
-		
+	{	
+		lock.lock();
+
+        try {
+            state[piTID] = State.HUNGRY;
+            test(piTID);
+            if (state[piTID] != State.EATING) {
+                self[piTID].wait();
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } 
+        
+		lock.unlock();
+        
+
 	}
 
 	/**
@@ -44,16 +78,40 @@ public class Monitor
 	 */
 	public synchronized void putDown(final int piTID)
 	{
-		// ...
+		lock.lock();
+
+        try {
+
+            state[piTID] = State.THINKING;
+			test((piTID + state.length - 1) % state.length);
+            test((piTID + 1) % state.length);
+
+        }catch(Exception e){
+			e.getMessage();
+		}
+
+		lock.unlock();
+        
 	}
 
 	/**
 	 * Only one philopher at a time is allowed to philosophy
-	 * (while she is not eating).
+	 * (while she is not eating). check if she is eating or not 
 	 */
-	public synchronized void requestTalk()
+	public synchronized void requestTalk(final int piTID)
 	{
-		// ...
+		lock.lock();
+
+        try {
+            while (state[piTID] == State.EATING) {
+                wait();
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+		}
+
+        lock.unlock();
+        
 	}
 
 	/**
@@ -64,6 +122,15 @@ public class Monitor
 	{
 		notifyAll();
 	}
+
+	// Initialization code
+    public void initialize() {
+        for (int i = 0; i < state.length; i++) {
+            state[i] = State.THINKING;
+        }
+    }
+
+
 }
 
 // EOF
