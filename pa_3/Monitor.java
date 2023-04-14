@@ -39,14 +39,14 @@ public class Monitor
 	 */
 
 	 private void test(int piTID) {
-        if (state[(piTID + state.length - 1) % state.length] != State.EATING &&
-            state[piTID] == State.HUNGRY &&
-            state[(piTID + 1) % state.length] != State.EATING) {
-
-            state[piTID] = State.EATING;
-            self[piTID].signal();
-        }
-    }
+		 
+         	if (state[(piTID + state.length - 1) % state.length] != State.EATING &&
+            	state[piTID] == State.HUNGRY &&state[(piTID + 1) % state.length] != State.EATING) 
+		{
+           	 	state[piTID] = State.EATING;
+           	 	self[piTID].signal();
+        	}
+   	}
  
 
 	/**
@@ -57,19 +57,16 @@ public class Monitor
 	{	
 		lock.lock();
 
-        try {
-            state[piTID] = State.HUNGRY;
-            test(piTID);
-            if (state[piTID] != State.EATING) {
-                self[piTID].wait();
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        } 
-        
+        	try{
+            		state[piTID] = State.HUNGRY;
+            		test(piTID);
+           		if (state[piTID] != State.EATING) {
+                		self[piTID].wait();
+            		}
+        	}catch (InterruptedException e) {
+            		Thread.currentThread().interrupt();
+        	} 
 		lock.unlock();
-        
-
 	}
 
 	/**
@@ -80,18 +77,17 @@ public class Monitor
 	{
 		lock.lock();
 
-        try {
+        	try{
 
-            state[piTID] = State.THINKING;
+            		state[piTID] = State.THINKING;
 			test((piTID + state.length - 1) % state.length);
-            test((piTID + 1) % state.length);
+            		test((piTID + 1) % state.length);
 
-        }catch(Exception e){
+        	}catch(Exception e){
 			e.getMessage();
 		}
 
-		lock.unlock();
-        
+		lock.unlock();    
 	}
 
 	/**
@@ -102,15 +98,15 @@ public class Monitor
 	{
 		lock.lock();
 
-        try {
-            while (state[piTID] == State.EATING) {
-                wait();
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+        	try{
+            		while (state[piTID] == State.EATING) {
+                	wait();
+            		}
+        	}catch (InterruptedException e) {
+            		Thread.currentThread().interrupt();
 		}
 
-        lock.unlock();
+        	lock.unlock();
         
 	}
 
@@ -124,11 +120,11 @@ public class Monitor
 	}
 
 	// Initialization code
-    public void initialize() {
-        for (int i = 0; i < state.length; i++) {
-            state[i] = State.THINKING;
-        }
-    }
+    	public void initialize() {
+        	for (int i = 0; i < state.length; i++) {
+            		state[i] = State.THINKING;
+        	}
+    	}
 
 
 }
