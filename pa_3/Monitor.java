@@ -12,8 +12,7 @@ public class Monitor
 
 	private enum State{THINKING, HUNGRY, EATING};
 	private State[] state;
-	private Lock lock = new ReentrantLock();
-	private Condition[] self;
+	
 
 
 	/**
@@ -55,7 +54,7 @@ public class Monitor
 	 */
 	public synchronized void pickUp(final int piTID)
 	{	
-		lock.lock();
+		
 
         	try{
             		state[piTID] = State.HUNGRY;
@@ -66,7 +65,7 @@ public class Monitor
         	}catch (InterruptedException e) {
             		Thread.currentThread().interrupt();
         	} 
-		lock.unlock();
+		
 	}
 
 	/**
@@ -75,7 +74,7 @@ public class Monitor
 	 */
 	public synchronized void putDown(final int piTID)
 	{
-		lock.lock();
+		
 
         	try{
 
@@ -87,7 +86,7 @@ public class Monitor
 			e.getMessage();
 		}
 
-		lock.unlock();    
+		
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class Monitor
 	 */
 	public synchronized void requestTalk(final int piTID)
 	{
-		lock.lock();
+		
 
         	try{
             		while (state[piTID] == State.EATING) {
@@ -106,7 +105,7 @@ public class Monitor
             		Thread.currentThread().interrupt();
 		}
 
-        	lock.unlock();
+        	
         
 	}
 
