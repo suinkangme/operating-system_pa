@@ -1,1 +1,2 @@
-### Academic Project (COMP 346-Operating System, Concordia University)
+### COMP 346-Operating System, Concordia University)
+- Academic Project 
