@@ -1,1 +1,1 @@
-### Operating System_Programming Assignment (comp 346)
+### Academic Project (COMP 346-Operating System, Concordia University)
